@@ -1,0 +1,62 @@
+:root {
+  --cowboy-primary: #8B4513; /* Saddle Brown */
+  --cowboy-secondary: #D2691E; /* Chocolate */
+  --cowboy-accent: #F4A460; /* Sandy Brown */
+  --cowboy-background: #F5DEB3; /* Wheat */
+  --cowboy-text: #FFFFFF; /* White */
+  --cowboy-error: #B22222; /* Firebrick */
+  --cowboy-selected: #FFD700; /* Gold */
+  --cowboy-visited: #228B22; /* Forest Green */
+}
+
+.globe-container {
+  background-color: var(--cowboy-background);
+  color: var(--cowboy-text);
+}
+
+.selected-country {
+  color: var(--cowboy-accent);
+}
+
+.error-message {
+  color: var(--cowboy-error);
+}
+
+.visited-periods {
+  color: var(--cowboy-secondary);
+}
+
+.total-length {
+  color: var(--cowboy-primary);
+}
+
+.input-field {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--cowboy-background);
+  color: var(--cowboy-text);
+  font-family: inherit;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.input-field:focus {
+  outline: none;
+  box-shadow: 0 0 5px var(--cowboy-accent);
+}
+
+.submit-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--cowboy-primary);
+  color: var(--cowboy-text);
+  font-family: inherit;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: var(--cowboy-secondary);
+}
