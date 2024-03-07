@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Typography, Radio, RadioGroup, FormControlLabel } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { CountryData } from './types';
 
 interface CountryDetailsProps {
@@ -28,7 +29,7 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({
         top: 60,
         left: 0,
         right: 0,
-        bgcolor: 'background.paper', // Use the theme's background color for paper
+        bgcolor: 'background.default',
         color: 'text.primary',
         p: 2,
         transition: 'bottom 0.3s ease',

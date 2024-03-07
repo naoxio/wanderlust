@@ -19,6 +19,12 @@ const GlobeComponent: React.FC = () => {
   const [countryStatus, setCountryStatus] = useState<{ [key: string]: string }>({});
   const globeRef = useRef<GlobeMethods | undefined>(undefined);
 
+  const handleGlobeClick = (event: any) => {
+    if (!event.object) {
+      setSelectedCountry(null);
+    }
+  };
+
   useEffect(() => {
     fetch('/countries.geojson')
       .then((res) => res.json())
@@ -108,6 +114,7 @@ const GlobeComponent: React.FC = () => {
         }}
         onPolygonHover={handleCountryHover}
         onPolygonClick={handleCountryClick}
+        onGlobeClick={handleGlobeClick}
         polygonsTransitionDuration={300}
       />
     </Box>

@@ -7,8 +7,9 @@ const darkTheme = createTheme({
       main: '#212121', // Dark gray color
     },
     background: {
-      default: '#333333', // Lighter dark gray color for background
-      paper: '#424242', // Lighter dark gray color for paper (surfaces)
+      default: '#424242AA',
+      paper: '#424242',
+
     },
   },
 });
