@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppBar, Toolbar as MuiToolbar, Typography } from '@mui/material';
 
+
 const Toolbar: React.FC = () => {
   return (
     <AppBar position="fixed">

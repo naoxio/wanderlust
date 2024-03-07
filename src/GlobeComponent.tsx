@@ -6,18 +6,17 @@ import { Box } from '@mui/material';
 import CountryDetails from './CountryDetails';
 import './GlobeComponent.css';
 
-const COWBOY_SELECTED = '#FFD700'; // Gold
-const COWBOY_VISITED = '#228B22'; // Forest Green
-const COWBOY_DEFAULT = '#aaaaaa'; // Default color
-const GLOBE_COLOR = '#0077be';
-const POLYGON_SIDE_COLOR = '#00AA00'; // Green
+const COUNTRY_VISITED = '#8BC34A'; // Lime Green
+const COUNTRY_LIVED = '#FFC107'; // Amber
+const COUNTRY_WANT = '#9C27B0'; // Purple
+const COUNTRY_DEFAULT = '#F5F5F5'; // Light Gray
+const POLYGON_SIDE_COLOR = '#330033';
+const SELECTED_BORDER_WIDTH = 1; // Thickness of the selected country's border
 
 const GlobeComponent: React.FC = () => {
   const [countries, setCountries] = useState<CountryData[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<CountryData | null>(null);
-  const [beenCountries, setBeenCountries] = useState<string[]>([]);
-  const [livedCountries, setLivedCountries] = useState<string[]>([]);
-  const [wantCountries, setWantCountries] = useState<string[]>([]);
+  const [countryStatus, setCountryStatus] = useState<{ [key: string]: string }>({});
   const globeRef = useRef<GlobeMethods | undefined>(undefined);
 
   useEffect(() => {
@@ -26,32 +25,72 @@ const GlobeComponent: React.FC = () => {
       .then((data) => setCountries(data.features));
   }, []);
 
-  const handleCountryClick = (polygon: any, _event: MouseEvent, _coords: {
-    lat: number;
-    lng: number;
-    altitude: number;
-  }) => {
+  const handleCountryClick = (polygon: unknown) => {
     const country = polygon as CountryData;
     setSelectedCountry(country);
   };
 
-  const handleCountryHover = (_polygon: any, _prevPolygon: any) => {
+  const handleCountryHover = () => {
     if (globeRef.current) {
       globeRef.current.controls().enableZoom = false;
       globeRef.current.controls().autoRotate = false;
     }
   };
 
-  const getCountryColor = (obj: any) => {
+  const getCountryColor = (obj: unknown) => {
     const country = obj as CountryData;
-    if (beenCountries.includes(country.__id)) {
-      return COWBOY_VISITED;
+    let color = COUNTRY_DEFAULT;
+    const status = countryStatus[country.__id];
+    
+    if (status === 'been') {
+      color = COUNTRY_VISITED;
+    } else if (status === 'lived') {
+      color = COUNTRY_LIVED;
+    } else if (status === 'want') {
+      color = COUNTRY_WANT;
     }
-    return selectedCountry?.__id === country.__id ? COWBOY_SELECTED : COWBOY_DEFAULT;
+    
+    return selectedCountry?.__id === country.__id ? saturateColor(color) : color;
+  };
+
+  const saturateColor = (color: string) => {
+    const rgb = hexToRgb(color);
+    if (rgb) {
+      const saturatedRgb = `rgba(${Math.round(rgb.r * 0.8)}, ${Math.round(rgb.g * 0.8)}, ${Math.round(rgb.b * 0.8)}, 1)`;
+      return saturatedRgb;
+    }
+    return color;
+  };
+
+  const hexToRgb = (hex: string) => {
+    const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, (_, r, g, b) => r + r + g + g + b + b);
+
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16),
+        }
+      : null;
   };
 
   return (
-    <Box sx={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
+    <Box sx={{
+      position: 'fixed',
+      height: '100%',
+      overflow: 'hidden',
+      left: 0,
+      top: 0
+      }}>
+    {selectedCountry && (
+      <CountryDetails
+        country={selectedCountry}
+        countryStatus={countryStatus}
+        setCountryStatus={setCountryStatus}
+      />
+    )}
       <Globe
         ref={globeRef}
         backgroundImageUrl={nightSkyImage}
@@ -61,7 +100,7 @@ const GlobeComponent: React.FC = () => {
         polygonCapColor={getCountryColor}
         polygonSideColor={() => POLYGON_SIDE_COLOR}
         polygonStrokeColor={() => '#111'}
-        polygonLabel={(obj: any) => {
+        polygonLabel={(obj: unknown) => {
           const country = obj as CountryData;
           return `
             <b>${country.properties.ADMIN} (${country.properties.ISO_A2})</b>
@@ -71,17 +110,6 @@ const GlobeComponent: React.FC = () => {
         onPolygonClick={handleCountryClick}
         polygonsTransitionDuration={300}
       />
-      {selectedCountry && (
-        <CountryDetails
-          country={selectedCountry}
-          beenCountries={beenCountries}
-          setBeenCountries={setBeenCountries}
-          livedCountries={livedCountries}
-          setLivedCountries={setLivedCountries}
-          wantCountries={wantCountries}
-          setWantCountries={setWantCountries}
-        />
-      )}
     </Box>
   );
 };
