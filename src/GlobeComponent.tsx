@@ -1,20 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Globe, { GlobeMethods } from 'react-globe.gl';
-import { CountryData, VisitedCountry } from './types';
-import { calculateTotalLength } from './utils';
-import earthNightImage from './assets/earth-night.jpg';
+import { CountryData } from './types';
 import nightSkyImage from './assets/night-sky.png';
+import { Box } from '@mui/material';
+import CountryDetails from './CountryDetails';
 import './GlobeComponent.css';
 
 const COWBOY_SELECTED = '#FFD700'; // Gold
 const COWBOY_VISITED = '#228B22'; // Forest Green
 const COWBOY_DEFAULT = '#aaaaaa'; // Default color
+const GLOBE_COLOR = '#0077be';
+const POLYGON_SIDE_COLOR = '#00AA00'; // Green
 
 const GlobeComponent: React.FC = () => {
   const [countries, setCountries] = useState<CountryData[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<CountryData | null>(null);
-  const [visitedCountries, setVisitedCountries] = useState<VisitedCountry[]>([]);
-  const [dateError, setDateError] = useState<string | null>(null);
+  const [beenCountries, setBeenCountries] = useState<string[]>([]);
+  const [livedCountries, setLivedCountries] = useState<string[]>([]);
+  const [wantCountries, setWantCountries] = useState<string[]>([]);
   const globeRef = useRef<GlobeMethods | undefined>(undefined);
 
   useEffect(() => {
@@ -39,65 +42,24 @@ const GlobeComponent: React.FC = () => {
     }
   };
 
-  const handleVisitSubmit = (from: string, to: string) => {
-    if (selectedCountry) {
-      if (from && to) {
-        const fromDate = new Date(from);
-        const toDate = new Date(to);
-        if (fromDate <= toDate) {
-          const countryId = selectedCountry.__id;
-          setVisitedCountries((prevVisited) => {
-            const existingCountry = prevVisited.find((c) => c.id === countryId);
-            if (existingCountry) {
-              const updatedPeriods = [...existingCountry.periods, { from, to }];
-              const updatedTotalLength = calculateTotalLength(updatedPeriods);
-              return prevVisited.map((c) =>
-                c.id === countryId ? { ...c, periods: updatedPeriods, totalLength: updatedTotalLength } : c
-              );
-            } else {
-              const newPeriod = { from, to };
-              const newTotalLength = calculateTotalLength([newPeriod]);
-              return [...prevVisited, { id: countryId, periods: [newPeriod], totalLength: newTotalLength }];
-            }
-          });
-          setDateError(null);
-        } else {
-          setDateError('Invalid date range. "From" date must be earlier than or equal to "To" date.');
-        }
-      } else {
-        setDateError('Please enter both "From" and "To" dates.');
-      }
-    }
-  };
   const getCountryColor = (obj: any) => {
-    const country = obj as CountryData
-    const getCountryColor = (obj: any) => {
-      const country = obj as CountryData;
-      const visitedCountry = visitedCountries.find((c) => c.id === country.__id);
-      if (visitedCountry) {
-        return 'var(--cowboy-visited)';
-      }
-      return selectedCountry?.__id === country.__id ? 'var(--cowboy-selected)' : 'rgba(255, 255, 255, 0.7)';
-    };
-  ;
-    const visitedCountry = visitedCountries.find((c) => c.id === country.__id);
-    if (visitedCountry) {
+    const country = obj as CountryData;
+    if (beenCountries.includes(country.__id)) {
       return COWBOY_VISITED;
     }
     return selectedCountry?.__id === country.__id ? COWBOY_SELECTED : COWBOY_DEFAULT;
   };
 
   return (
-    <div className="globe-container">
+    <Box sx={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
       <Globe
         ref={globeRef}
-        globeImageUrl={earthNightImage}
         backgroundImageUrl={nightSkyImage}
         lineHoverPrecision={0}
         polygonsData={countries}
         polygonAltitude={0.06}
         polygonCapColor={getCountryColor}
-        polygonSideColor={() => 'rgba(0, 100, 0, 0.15)'}
+        polygonSideColor={() => POLYGON_SIDE_COLOR}
         polygonStrokeColor={() => '#111'}
         polygonLabel={(obj: any) => {
           const country = obj as CountryData;
@@ -110,43 +72,17 @@ const GlobeComponent: React.FC = () => {
         polygonsTransitionDuration={300}
       />
       {selectedCountry && (
-        <div>
-          <h3 className="selected-country">Selected Country: {selectedCountry.properties.ADMIN}</h3>
-          {dateError && <p className="error-message">{dateError}</p>}
-          <input type="date" id="fromDate" className="input-field" />
-          <input type="date" id="toDate" className="input-field" />
-          <button
-            className="submit-button"
-            onClick={() => {
-              const fromDate = (document.getElementById('fromDate') as HTMLInputElement).value;
-              const toDate = (document.getElementById('toDate') as HTMLInputElement).value;
-              handleVisitSubmit(fromDate, toDate);
-            }}
-          >
-            Add Visit
-          </button>
-        
-          {visitedCountries.find((c) => c.id === selectedCountry.__id) && (
-            <div>
-              <h4 className="visited-periods">Visited Periods:</h4>
-              <ul>
-                {visitedCountries
-                  .find((c) => c.id === selectedCountry.__id)
-                  ?.periods.map((period, index) => (
-                    <li key={index}>
-                      From: {period.from} - To: {period.to}
-                    </li>
-                  ))}
-              </ul>
-              <p className="total-length">
-                Total Length of Stay:{' '}
-                {visitedCountries.find((c) => c.id === selectedCountry.__id)?.totalLength} days
-              </p>
-            </div>
-          )}
-        </div>
+        <CountryDetails
+          country={selectedCountry}
+          beenCountries={beenCountries}
+          setBeenCountries={setBeenCountries}
+          livedCountries={livedCountries}
+          setLivedCountries={setLivedCountries}
+          wantCountries={wantCountries}
+          setWantCountries={setWantCountries}
+        />
       )}
-    </div>
+    </Box>
   );
 };
 

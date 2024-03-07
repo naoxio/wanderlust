@@ -9,9 +9,20 @@
   --cowboy-visited: #228B22; /* Forest Green */
 }
 
-.globe-container {
+.country-details {
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  right: 0;
   background-color: var(--cowboy-background);
   color: var(--cowboy-text);
+  padding: 20px;
+  transition: bottom 0.3s ease;
+  z-index: 1;
+}
+
+.country-details.open {
+  bottom: 0;
 }
 
 .selected-country {
