@@ -36,6 +36,12 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({
         zIndex: 1,
       }}
     >
+       <Box
+          component="img"
+          src={`/flags/${country.properties.ISO_A2.toLowerCase()}.svg`}
+          alt={`${country.properties.ADMIN} Flag`}
+          sx={{ width: 24, height: 24, mr: 1 }}
+        />
       <Typography variant="h6">{country.properties.ADMIN}</Typography>
       <RadioGroup
         row

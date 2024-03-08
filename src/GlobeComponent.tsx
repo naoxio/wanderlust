@@ -11,7 +11,6 @@ const COUNTRY_LIVED = '#FFC107'; // Amber
 const COUNTRY_WANT = '#9C27B0'; // Purple
 const COUNTRY_DEFAULT = '#F5F5F5'; // Light Gray
 const POLYGON_SIDE_COLOR = '#330033';
-const SELECTED_BORDER_WIDTH = 1; // Thickness of the selected country's border
 
 const GlobeComponent: React.FC = () => {
   const [countries, setCountries] = useState<CountryData[]>([]);
@@ -22,7 +21,7 @@ const GlobeComponent: React.FC = () => {
   const handleGlobeClick = (event: any) => {
     if (!event.object) {
       setSelectedCountry(null);
-    }
+    } 
   };
 
   useEffect(() => {
