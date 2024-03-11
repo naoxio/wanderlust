@@ -36,7 +36,7 @@ const saturateColor = (color: string) => {
 
 const getIsoA2 = (country: CountryData | null) => {
   if (!country) return ''
-  return country.properties.ISO_A2 === '-99' ? 'FR' : country.properties.ISO_A2;
+  return country.properties.iso_a2 === '-99' ? 'FR' : country.properties.iso_a2;
 };
 
 export { calculateTotalLength, saturateColor, getIsoA2 }

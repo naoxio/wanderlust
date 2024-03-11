@@ -39,10 +39,10 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({ country }) => {
         <Box
           component="img"
           src={`/flags/${isoA2.toLowerCase()}.svg`}
-          alt={`${country.properties.ADMIN} Flag`}
+          alt={`${country.properties.admin} Flag`}
           sx={{ width: 24, height: 24, mr: 1 }}
         />
-        <Typography variant="h6">{country.properties.ADMIN}</Typography>
+        <Typography variant="h6">{country.properties.admin}</Typography>
       </Box>
       <RadioGroup
         row

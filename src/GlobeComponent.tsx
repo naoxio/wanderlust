@@ -44,7 +44,6 @@ const GlobeComponent: React.FC = () => {
     fetch('/countries.geojson')
       .then((res) => res.json())
       .then((data) => setCountries(data.features));
-  
     const globeElement = globeRef.current?.renderer().domElement;
     globeElement?.addEventListener('wheel', handleZoom);
   
@@ -102,7 +101,7 @@ const GlobeComponent: React.FC = () => {
         polygonLabel={(obj: unknown) => {
           const country = obj as CountryData;
           return `
-            <b>${country.properties.ADMIN} (${getIsoA2(country)})</b>
+            <b>${country.properties.admin} (${getIsoA2(country)})</b>
           `;
         }}
         onPolygonHover={handleCountryHover}

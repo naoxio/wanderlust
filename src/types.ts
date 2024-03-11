@@ -1,8 +1,8 @@
 export interface CountryData {
   __id: string;
   properties: {
-    ADMIN: string;
-    ISO_A2: string;
+    admin: string;
+    iso_a2: string;
   };
 }
 
