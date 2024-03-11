@@ -3,12 +3,15 @@ import { ThemeProvider } from '@mui/material';
 import darkTheme from './theme';
 import Toolbar from './Toolbar';
 import GlobeComponent from './GlobeComponent';
+import { CountryStatusProvider } from './CountryStatusContext';
 
 function App() {
   return (
     <ThemeProvider theme={darkTheme}>
-      <Toolbar />
-      <GlobeComponent />
+      <CountryStatusProvider>
+        <Toolbar />
+        <GlobeComponent />
+      </CountryStatusProvider>
     </ThemeProvider>
   );
 }

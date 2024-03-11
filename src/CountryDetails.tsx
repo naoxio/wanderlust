@@ -1,24 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, Typography, Radio, RadioGroup, FormControlLabel } from '@mui/material';
-import { alpha } from '@mui/material/styles';
 import { CountryData } from './types';
+import { CountryStatusContext } from './CountryStatusContext';
+import { getIsoA2 } from './utils';
 
 interface CountryDetailsProps {
   country: CountryData;
-  countryStatus: { [key: string]: string };
-  setCountryStatus: React.Dispatch<React.SetStateAction<{ [key: string]: string }>>;
 }
 
-const CountryDetails: React.FC<CountryDetailsProps> = ({
-  country,
-  countryStatus,
-  setCountryStatus,
-}) => {
+const CountryDetails: React.FC<CountryDetailsProps> = ({ country }) => {
+  const { countryStatus, setCountryStatus } = useContext(CountryStatusContext);
+  const isoA2 = getIsoA2(country);
+
   const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const status = event.target.value;
-    setCountryStatus((prevStatus) => ({
+    setCountryStatus((prevStatus: any) => ({
       ...prevStatus,
-      [country.__id]: status,
+      [isoA2]: status,
     }));
   };
 
@@ -26,6 +24,7 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({
     <Box
       sx={{
         position: 'fixed',
+        margin: 'auto',
         top: 60,
         left: 0,
         right: 0,
@@ -36,16 +35,18 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({
         zIndex: 1,
       }}
     >
-       <Box
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+        <Box
           component="img"
-          src={`/flags/${country.properties.ISO_A2.toLowerCase()}.svg`}
+          src={`/flags/${isoA2.toLowerCase()}.svg`}
           alt={`${country.properties.ADMIN} Flag`}
           sx={{ width: 24, height: 24, mr: 1 }}
         />
-      <Typography variant="h6">{country.properties.ADMIN}</Typography>
+        <Typography variant="h6">{country.properties.ADMIN}</Typography>
+      </Box>
       <RadioGroup
         row
-        value={countryStatus[country.__id] || ''}
+        value={countryStatus[isoA2] || ''}
         onChange={handleStatusChange}
       >
         <FormControlLabel value="been" control={<Radio />} label="Been" />
