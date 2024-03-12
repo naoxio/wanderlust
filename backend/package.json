@@ -2,19 +2,30 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "ts-node src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/cors": "^8.0.0",
+    "@prisma/client": "^5.10.2",
     "fastify": "^4.26.2",
-    "fastify-sqlite": "^1.1.0"
+    "fastify-cors": "^6.1.0",
+    "fastify-plugin": "^4.5.0",
+    "fastify-sqlite": "^1.1.0",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
-    "@types/node": "^20.11.25",
+    "@types/node": "^20.11.26",
+    "concurrently": "^7.6.0",
+    "nodemon": "^2.0.22",
+    "prisma": "^5.10.2",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.2"
   }
 }

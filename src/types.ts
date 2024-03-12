@@ -11,3 +11,10 @@ export interface VisitedCountry {
   periods: { from: string; to: string }[];
   totalLength: number;
 }
+
+
+export interface CountryStatus {
+  iso_a2: string;
+  status: string;
+}
+

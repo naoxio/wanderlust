@@ -1,26 +1,26 @@
 import Fastify from 'fastify';
-import dbConnector from './database';
+import cors from '@fastify/cors';
+import { PrismaClient } from '@prisma/client';
 
+const prisma = new PrismaClient();
 const fastify = Fastify({ logger: true });
 
-fastify.register(dbConnector);
+fastify.register(cors);
 
-fastify.post<{ Params: { id: string } }>('/api/countries/:id/been', async (request, reply) => {
-  const countryId = request.params.id;
-  await fastify.sqlite.run('UPDATE countries SET status = "been" WHERE id = ?', [countryId]);
-  return { message: 'Country marked as been' };
+fastify.get('/api/country-status', async () => {
+  const countryStatuses = await prisma.countryStatus.findMany();
+  return countryStatuses;
 });
 
-fastify.post<{ Params: { id: string } }>('/api/countries/:id/lived', async (request, reply) => {
-  const countryId = request.params.id;
-  await fastify.sqlite.run('UPDATE countries SET status = "lived" WHERE id = ?', [countryId]);
-  return { message: 'Country marked as lived' };
-});
-
-fastify.post<{ Params: { id: string } }>('/api/countries/:id/want', async (request, reply) => {
-  const countryId = request.params.id;
-  await fastify.sqlite.run('UPDATE countries SET status = "want" WHERE id = ?', [countryId]);
-  return { message: 'Country marked as want' };
+fastify.post<{ Body: { iso_a2: string; status: string } }>('/api/country-status', async (request, reply) => {
+  const { iso_a2, status } = request.body;
+  await prisma.countryStatus.upsert({
+    where: { iso_a2 },
+    update: { status },
+    create: { iso_a2, status },
+  });
+  
+  reply.send({ message: 'Country status updated' });
 });
 
 const start = async () => {

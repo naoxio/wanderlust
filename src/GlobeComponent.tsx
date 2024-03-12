@@ -1,24 +1,24 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { MeshPhongMaterial, Color } from 'three';
 import Globe, { GlobeMethods } from 'react-globe.gl';
 import { CountryData } from './types';
 import nightSkyImage from './assets/night-sky.png';
 import CountryDetails from './CountryDetails';
-import { CountryStatusContext } from './CountryStatusContext';
 import { saturateColor, getIsoA2 } from './utils';
+import { RootState } from './store';
 
-
-const COUNTRY_VISITED = '#8BC34A'; // Lime Green
-const COUNTRY_LIVED = '#FFC107'; // Amber
-const COUNTRY_WANT = '#9C27B0'; // Purple
-const COUNTRY_DEFAULT = '#F5F5F5'; // Light Gray
+const COUNTRY_VISITED = '#8BC34A';
+const COUNTRY_LIVED = '#FFC107';
+const COUNTRY_WANT = '#9C27B0';
+const COUNTRY_DEFAULT = '#F5F5F5';
 const GLOBE_COLOR = '#0B3954';
 const POLYGON_SIDE_COLOR = '#091732';
 
 const GlobeComponent: React.FC = () => {
   const [countries, setCountries] = useState<CountryData[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<CountryData | null>(null);
-  const { countryStatus } = useContext(CountryStatusContext);
+  const countryStatus = useSelector((state: RootState) => state.countryStatus);
   const globeRef = useRef<GlobeMethods | undefined>(undefined);
 
   const globeMaterial = new MeshPhongMaterial();
@@ -27,13 +27,13 @@ const GlobeComponent: React.FC = () => {
   const handleGlobeClick = (_coords: { lat: number; lng: number; }, event: MouseEvent & { object?: unknown }) => {
     if (!event.object) {
       setSelectedCountry(null);
-    } 
+    }
   };
+
   const handleZoom = (event: WheelEvent) => {
     if (globeRef.current) {
       const globe = globeRef.current;
       const deltaY = event.deltaY;
-  
       const pov = globe.pointOfView();
       const altitude = pov.altitude * (1 + (deltaY < 0 ? -0.1 : 0.1));
       globe.pointOfView({ lat: pov.lat, lng: pov.lng, altitude });
@@ -44,13 +44,14 @@ const GlobeComponent: React.FC = () => {
     fetch('/countries.geojson')
       .then((res) => res.json())
       .then((data) => setCountries(data.features));
+
     const globeElement = globeRef.current?.renderer().domElement;
     globeElement?.addEventListener('wheel', handleZoom);
-  
+
     return () => {
       globeElement?.removeEventListener('wheel', handleZoom);
     };
-  }, []);  
+  }, []);
 
   const handleCountryClick = (polygon: unknown) => {
     const country = polygon as CountryData;
@@ -66,8 +67,11 @@ const GlobeComponent: React.FC = () => {
 
   const getCountryColor = (obj: unknown) => {
     const country = obj as CountryData;
+    const iso_a2 = getIsoA2(country);
     let color = COUNTRY_DEFAULT;
-    const status = countryStatus[getIsoA2(country)];
+  
+    const status = countryStatus.find((cs) => cs.iso_a2 === iso_a2)?.status;
+
 
     if (status === 'been') {
       color = COUNTRY_VISITED;
@@ -80,14 +84,9 @@ const GlobeComponent: React.FC = () => {
     return getIsoA2(selectedCountry) === getIsoA2(country) ? saturateColor(color) : color;
   };
 
-
   return (
     <div>
-    {selectedCountry && (
-      <CountryDetails
-        country={selectedCountry}
-      />
-    )}
+      {selectedCountry && <CountryDetails country={selectedCountry} />}
       <Globe
         ref={globeRef}
         globeMaterial={globeMaterial}

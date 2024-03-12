@@ -1,7 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Box, Typography, Radio, RadioGroup, FormControlLabel } from '@mui/material';
 import { CountryData } from './types';
-import { CountryStatusContext } from './CountryStatusContext';
+import { RootState } from './store';
+import { fetchCountryStatuses, updateCountryStatus } from './countryStatusSlice';
 import { getIsoA2 } from './utils';
 
 interface CountryDetailsProps {
@@ -9,15 +11,17 @@ interface CountryDetailsProps {
 }
 
 const CountryDetails: React.FC<CountryDetailsProps> = ({ country }) => {
-  const { countryStatus, setCountryStatus } = useContext(CountryStatusContext);
+  const dispatch = useDispatch();
+  const countryStatus = useSelector((state: RootState) => state.countryStatus);
   const isoA2 = getIsoA2(country);
+  useEffect(() => {
+    dispatch(fetchCountryStatuses());
+  }, [dispatch]);
+
 
   const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const status = event.target.value;
-    setCountryStatus((prevStatus: any) => ({
-      ...prevStatus,
-      [isoA2]: status,
-    }));
+    dispatch(updateCountryStatus({ iso_a2: getIsoA2(country), status }));
   };
 
   return (
