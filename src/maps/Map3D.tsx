@@ -21,13 +21,11 @@ const Map3D: React.FC<Map3DProps> = ({
   countryStatus,
   selectedCountry,
   handleCountryClick,
-  globeRef,
 }) => {
   const filteredCountries = getFilteredCountries(countries, selectedRegion);
 
   return (
     <Globe
-      ref={globeRef}
       globeMaterial={new MeshPhongMaterial({ color: new Color(GLOBE_COLOR) })}
       backgroundImageUrl={nightSkyImage}
       lineHoverPrecision={0}

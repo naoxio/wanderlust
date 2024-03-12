@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box } from '@mui/material';
-import { ComposableMap, Geographies, Geography, ZoomableGroup, Sphere } from 'react-simple-maps';
+import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps';
 import { CountryData } from '@interfaces/index';
 import { getCountryColor, getIsoA2 } from '@utils/mapUtils';
 
@@ -18,11 +18,6 @@ const Map2D: React.FC<Map2DProps> = ({
   selectedCountry,
   handleCountryClick,
 }) => {
-  const [mapWidth, setMapWidth] = useState(100);
-
-  const handleMapWidth = (event: React.MouseEvent<HTMLDivElement>) => {
-    setMapWidth(event.currentTarget.offsetWidth);
-  };
 
   return (
     <Box
@@ -31,7 +26,6 @@ const Map2D: React.FC<Map2DProps> = ({
         width: '100vw',
         height: '100vh',
       }}
-      onMouseEnter={handleMapWidth}
     >
       <ComposableMap projection="geoMercator">
         <ZoomableGroup translateExtent={[[-80,-208], [880, 1000]]}>

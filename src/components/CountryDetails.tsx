@@ -1,19 +1,21 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Box, Typography, Radio, RadioGroup, FormControlLabel } from '@mui/material';
 import { CountryData } from '@interfaces/index';
 import { RootState } from '@store/index';
 import { fetchCountryStatuses, updateCountryStatus } from '@store/countryStatusSlice';
 import { getIsoA2 } from '@utils/mapUtils';
+import { useAppDispatch, useAppSelector } from '../hooks';
+
 
 interface CountryDetailsProps {
   country: CountryData;
 }
 
 const CountryDetails: React.FC<CountryDetailsProps> = ({ country }) => {
-  const dispatch = useDispatch();
-  const countryStatus = useSelector((state: RootState) => state.countryStatus);
+  const dispatch = useAppDispatch()
+  const countryStatus = useAppSelector((state: RootState) => state.countryStatus);
   const isoA2 = getIsoA2(country);
+
   useEffect(() => {
     dispatch(fetchCountryStatuses());
   }, [dispatch]);
@@ -50,7 +52,7 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({ country }) => {
       </Box>
       <RadioGroup
         row
-        value={countryStatus[isoA2] || ''}
+        value={ countryStatus.find((cs) => cs.iso_a2 === isoA2)?.status || ''}
         onChange={handleStatusChange}
       >
         <FormControlLabel value="been" control={<Radio />} label="Been" />

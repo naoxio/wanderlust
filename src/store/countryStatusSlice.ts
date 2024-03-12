@@ -4,11 +4,11 @@ import { CountryStatus } from '@interfaces/index'
 
 const initialState: CountryStatus[] = [];
 
-export const fetchCountryStatuses = createAsyncThunk(
+
+export const fetchCountryStatuses = createAsyncThunk<CountryStatus[], void, object>(
   'countryStatus/fetchCountryStatuses',
   async () => {
-    const response = await axios.get<CountryStatus[]>('http://localhost:3000/api/country-status');
-    console.log(response.data)
+    const response = await axios.get<CountryStatus[]>('http://localhost:3000/api/country-statuses');
     return response.data;
   }
 );
@@ -20,6 +20,7 @@ export const updateCountryStatus = createAsyncThunk(
     return countryStatus;
   }
 );
+
 
 const countryStatusSlice = createSlice({
   name: 'countryStatus',
