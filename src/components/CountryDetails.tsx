@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, Typography, Radio, RadioGroup, FormControlLabel } from '@mui/material';
-import { CountryData } from './types';
-import { RootState } from './store';
-import { fetchCountryStatuses, updateCountryStatus } from './countryStatusSlice';
-import { getIsoA2 } from './utils';
+import { CountryData } from '@interfaces/index';
+import { RootState } from '@store/index';
+import { fetchCountryStatuses, updateCountryStatus } from '@store/countryStatusSlice';
+import { getIsoA2 } from '@utils/mapUtils';
 
 interface CountryDetailsProps {
   country: CountryData;

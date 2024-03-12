@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { CountryStatus } from './types'
+import { CountryStatus } from '@interfaces/index'
 
 const initialState: CountryStatus[] = [];
 

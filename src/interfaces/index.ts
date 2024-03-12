@@ -22,3 +22,4 @@ export interface CountryStatus {
   status: string;
 }
 
+export interface Coordinates extends Array<[number, number]> {}

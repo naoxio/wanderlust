@@ -1,10 +1,12 @@
 // store.ts
 import { configureStore } from '@reduxjs/toolkit';
-import countryStatusReducer from './countryStatusSlice';
+import countryStatusReducer from '@store/countryStatusSlice';
+import selectedRegionReducer from '@store/selectedRegionSlice';
 
 const store = configureStore({
   reducer: {
     countryStatus: countryStatusReducer,
+    selectedRegion: selectedRegionReducer,
   },
 });
 
