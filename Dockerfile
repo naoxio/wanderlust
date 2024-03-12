@@ -26,6 +26,10 @@ WORKDIR /app
 # Copy the built frontend and backend to the final image
 COPY --from=frontend-builder /app/frontend/dist /app/frontend/dist
 COPY --from=backend-builder /app/backend/dist /app/backend/dist
+COPY --from=backend-builder /app/backend/package*.json /app/backend/
+
+# Install backend dependencies
+RUN cd /app/backend && npm install --only=production
 
 # Expose the port your app runs on
 EXPOSE 3000
