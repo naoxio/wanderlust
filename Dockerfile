@@ -3,9 +3,9 @@ FROM node:16-alpine as frontend-builder
 
 WORKDIR /app/frontend
 
-COPY frontend/package*.json ./
+COPY package*.json ./
 RUN npm install
-COPY frontend .
+COPY . .
 RUN npm run build
 
 # Stage 2: Build the backend
