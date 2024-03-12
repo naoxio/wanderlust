@@ -16,6 +16,10 @@ WORKDIR /app/backend
 COPY backend/package*.json ./
 RUN npm install
 COPY backend .
+
+# Generate Prisma client
+RUN npx prisma generate
+
 RUN npm run build
 
 # Stage 3: Final image
@@ -23,16 +27,12 @@ FROM node:16-alpine
 
 WORKDIR /app
 
-# Copy the built frontend and backend to the final image
 COPY --from=frontend-builder /app/frontend/dist /app/frontend/dist
 COPY --from=backend-builder /app/backend/dist /app/backend/dist
 COPY --from=backend-builder /app/backend/package*.json /app/backend/
 
-# Install backend dependencies
 RUN cd /app/backend && npm install --only=production
 
-# Expose the port your app runs on
 EXPOSE 3000
 
-# Run the backend server
 CMD ["node", "backend/dist/server.js"]
