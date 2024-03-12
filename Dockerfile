@@ -1,0 +1,34 @@
+# Stage 1: Build the frontend
+FROM node:16-alpine as frontend-builder
+
+WORKDIR /app/frontend
+
+COPY frontend/package*.json ./
+RUN npm install
+COPY frontend .
+RUN npm run build
+
+# Stage 2: Build the backend
+FROM node:16-alpine as backend-builder
+
+WORKDIR /app/backend
+
+COPY backend/package*.json ./
+RUN npm install
+COPY backend .
+RUN npm run build
+
+# Stage 3: Final image
+FROM node:16-alpine
+
+WORKDIR /app
+
+# Copy the built frontend and backend to the final image
+COPY --from=frontend-builder /app/frontend/dist /app/frontend/dist
+COPY --from=backend-builder /app/backend/dist /app/backend/dist
+
+# Expose the port your app runs on
+EXPOSE 3000
+
+# Run the backend server
+CMD ["node", "backend/dist/server.js"]
