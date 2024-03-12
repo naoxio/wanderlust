@@ -7,7 +7,6 @@ export interface CountryData {
     postal: string;
     region_un: string;
     subregion: string;
-
   };
 }
 
