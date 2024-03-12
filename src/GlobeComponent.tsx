@@ -18,6 +18,7 @@ const POLYGON_SIDE_COLOR = '#091732';
 const GlobeComponent: React.FC = () => {
   const [countries, setCountries] = useState<CountryData[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<CountryData | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<string>('World');
   const countryStatus = useSelector((state: RootState) => state.countryStatus);
   const globeRef = useRef<GlobeMethods | undefined>(undefined);
 
@@ -43,7 +44,18 @@ const GlobeComponent: React.FC = () => {
   useEffect(() => {
     fetch('/countries.geojson')
       .then((res) => res.json())
-      .then((data) => setCountries(data.features));
+      .then((data) => {
+        const regions: { [key: string]: CountryData[] } = {};
+        data.features.forEach((feature: CountryData) => {
+          const region = feature.properties.region_un;
+          if (!regions[region]) {
+            regions[region] = [];
+          }
+          regions[region].push(feature);
+        });
+        setCountries(data.features);
+        console.log(regions);
+      });
 
     const globeElement = globeRef.current?.renderer().domElement;
     globeElement?.addEventListener('wheel', handleZoom);
@@ -69,9 +81,8 @@ const GlobeComponent: React.FC = () => {
     const country = obj as CountryData;
     const iso_a2 = getIsoA2(country);
     let color = COUNTRY_DEFAULT;
-  
-    const status = countryStatus.find((cs) => cs.iso_a2 === iso_a2)?.status;
 
+    const status = countryStatus.find((cs) => cs.iso_a2 === iso_a2)?.status;
 
     if (status === 'been') {
       color = COUNTRY_VISITED;
@@ -84,6 +95,10 @@ const GlobeComponent: React.FC = () => {
     return getIsoA2(selectedCountry) === getIsoA2(country) ? saturateColor(color) : color;
   };
 
+  const filteredCountries = selectedRegion === 'World'
+    ? countries
+    : countries.filter((country) => country.properties.region_un === selectedRegion);
+
   return (
     <div>
       {selectedCountry && <CountryDetails country={selectedCountry} />}
@@ -92,7 +107,7 @@ const GlobeComponent: React.FC = () => {
         globeMaterial={globeMaterial}
         backgroundImageUrl={nightSkyImage}
         lineHoverPrecision={0}
-        polygonsData={countries}
+        polygonsData={filteredCountries}
         polygonAltitude={0.06}
         polygonCapColor={getCountryColor}
         polygonSideColor={() => POLYGON_SIDE_COLOR}
@@ -108,6 +123,15 @@ const GlobeComponent: React.FC = () => {
         onGlobeClick={handleGlobeClick}
         polygonsTransitionDuration={300}
       />
+      <div>
+        <button onClick={() => setSelectedRegion('World')}>World</button>
+        <button onClick={() => setSelectedRegion('Africa')}>Africa</button>
+        <button onClick={() => setSelectedRegion('Antarctica')}>Antarctica</button>
+        <button onClick={() => setSelectedRegion('Asia')}>Asia</button>
+        <button onClick={() => setSelectedRegion('Europe')}>Europe</button>
+        <button onClick={() => setSelectedRegion('Americas')}>Americas</button>
+        <button onClick={() => setSelectedRegion('Oceania')}>Oceania</button>
+      </div>
     </div>
   );
 };

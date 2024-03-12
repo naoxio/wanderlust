@@ -3,6 +3,11 @@ export interface CountryData {
   properties: {
     admin: string;
     iso_a2: string;
+    continent: string;
+    postal: string;
+    region_un: string;
+    subregion: string;
+
   };
 }
 
