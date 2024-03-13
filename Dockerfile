@@ -44,7 +44,7 @@ FROM nginx:stable-alpine
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Copy the backend build files to a directory in Nginx
-COPY --from=build /app/backend/dist /app/backend/dist
+COPY --from=build /app/backend /app/backend
 
 # Install Node.js in the Nginx image
 RUN apk add --update nodejs npm
