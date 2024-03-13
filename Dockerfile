@@ -39,6 +39,8 @@ EXPOSE 3000
 
 FROM nginx:stable-alpine
 
+RUN apk add --update nodejs npm
+
 # Copy the Nginx configuration file
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
