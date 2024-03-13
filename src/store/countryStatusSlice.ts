@@ -8,7 +8,7 @@ const initialState: CountryStatus[] = [];
 export const fetchCountryStatuses = createAsyncThunk<CountryStatus[], void, object>(
   'countryStatus/fetchCountryStatuses',
   async () => {
-    const response = await axios.get<CountryStatus[]>('http://localhost:3000/api/country-statuses');
+    const response = await axios.get<CountryStatus[]>('/api/country-statuses');
     return response.data;
   }
 );
@@ -16,7 +16,7 @@ export const fetchCountryStatuses = createAsyncThunk<CountryStatus[], void, obje
 export const updateCountryStatus = createAsyncThunk(
   'countryStatus/updateCountryStatus',
   async (countryStatus: CountryStatus) => {
-    await axios.post('http://localhost:3000/api/country-status', countryStatus);
+    await axios.post('/api/country-status', countryStatus);
     return countryStatus;
   }
 );
