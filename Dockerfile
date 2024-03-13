@@ -28,14 +28,14 @@ RUN npm ci
 # Copy the backend source code
 COPY backend ./
 
+# Build the backend
+RUN npm run build
+
 # Generate Prisma client
 RUN npx prisma generate
 
 # Run database migrations
 RUN npx prisma migrate deploy
-
-# Expose the port on which the backend server will run
-EXPOSE 3000
 
 FROM nginx:stable-alpine
 
