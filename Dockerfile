@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as the base image
-FROM node:18 AS build
+FROM node:18
 
 # Set the working directory in the container
 WORKDIR /app
@@ -34,17 +34,10 @@ RUN npx prisma generate
 # Run database migrations
 RUN npx prisma migrate deploy
 
-# Use an official Nginx runtime as the base image
+# Expose the port on which the backend server will run
+EXPOSE 3000
+
 FROM nginx:stable-alpine
-
-# Copy the frontend build files to Nginx html directory
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# Copy the backend build files to a directory in Nginx
-COPY --from=build /app/backend /app/backend
-
-# Install Node.js in the Nginx image
-RUN apk add --update nodejs npm
 
 # Copy the Nginx configuration file
 COPY nginx.conf /etc/nginx/conf.d/default.conf
@@ -52,5 +45,5 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Expose the port on which Nginx will run
 EXPOSE 80
 
-# Start Nginx and the backend server
+# Start the backend server and the frontend web server
 CMD ["sh", "-c", "nginx && node backend/dist/index.js"]
