@@ -29,4 +29,4 @@ EXPOSE 80
 RUN npm install -g pm2
 
 # Start Nginx and the backend server using pm2
-CMD ["sh", "-c", "nginx && pm2-runtime start /app/backend/dist/index.js"]
+CMD ["sh", "-c", "nginx && pm2-runtime start /app/backend/dist/server.js"]
