@@ -5,7 +5,10 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 const fastify = Fastify({ logger: true });
 
-fastify.register(cors);
+fastify.register(cors, {
+  origin: 'https://wanderlust.naox.io',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+});
 
 fastify.get('/api/country-status', async () => {
   const countryStatuses = await prisma.countryStatus.findMany();
@@ -19,7 +22,6 @@ fastify.post<{ Body: { iso_a2: string; status: string } }>('/api/country-status'
     update: { status },
     create: { iso_a2, status },
   });
-  
   reply.send({ message: 'Country status updated' });
 });
 
