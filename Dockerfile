@@ -53,4 +53,4 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 
 # Start Nginx and the backend server
-CMD ["sh", "-c", "nginx && cd /app/backend && node dist/index.js"]
+CMD ["sh", "-c", "nginx && node backend/dist/index.js"]
