@@ -10,12 +10,12 @@ fastify.register(cors, {
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 });
 
-fastify.get('/api/country-status', async () => {
+fastify.get('/country-statuses', async () => {
   const countryStatuses = await prisma.countryStatus.findMany();
   return countryStatuses;
 });
 
-fastify.post<{ Body: { iso_a2: string; status: string } }>('/api/country-status', async (request, reply) => {
+fastify.post<{ Body: { iso_a2: string; status: string } }>('/country-status', async (request, reply) => {
   const { iso_a2, status } = request.body;
   await prisma.countryStatus.upsert({
     where: { iso_a2 },
