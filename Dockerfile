@@ -47,4 +47,4 @@ RUN npx prisma migrate deploy
 RUN npm install -g http-server
 
 # Start the backend server and the frontend web server
-CMD ["sh", "-c", "npm start & http-server ../dist -p 8080"]
+CMD ["sh", "-c", "node backend/dist/index.js & http-server ../dist -p 8080"]
