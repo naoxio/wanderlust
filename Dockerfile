@@ -1,38 +1,50 @@
-# Stage 1: Build the frontend
-FROM node:16-alpine as frontend-builder
+# Use an official Node.js runtime as the base image
+FROM node:18
 
-WORKDIR /app/frontend
+# Set the working directory in the container
+WORKDIR /app
 
+# Copy package.json and package-lock.json for the frontend
 COPY package*.json ./
-RUN npm install
+
+# Install frontend dependencies
+RUN npm ci
+
+# Copy the frontend source code
 COPY . .
+
+# Build the frontend
 RUN npm run build
 
-# Stage 2: Build the backend
-FROM node:16-alpine as backend-builder
-
+# Set the working directory for the backend
 WORKDIR /app/backend
 
+# Copy package.json and package-lock.json for the backend
 COPY backend/package*.json ./
-RUN npm install
-COPY backend .
+
+# Install backend dependencies
+RUN npm ci
+
+# Copy the backend source code
+COPY backend ./
 
 # Generate Prisma client
 RUN npx prisma generate
 
-RUN npm run build
-
-# Stage 3: Final image
-FROM node:16-alpine
-
-WORKDIR /app
-
-COPY --from=frontend-builder /app/frontend/dist /app/frontend/dist
-COPY --from=backend-builder /app/backend/dist /app/backend/dist
-COPY --from=backend-builder /app/backend/package*.json /app/backend/
-
-RUN cd /app/backend && npm install --only=production
-
+# Expose the port on which the backend server will run
 EXPOSE 3000
 
-CMD ["node", "backend/dist/server.js"]
+# Expose the port on which the frontend will be served
+EXPOSE 8080
+
+# Set environment variables if required
+# ENV DATABASE_URL=your-database-url
+
+# Run database migrations
+RUN npx prisma migrate deploy
+
+# Install a lightweight web server globally
+RUN npm install -g http-server
+
+# Start the backend server and the frontend web server
+CMD ["sh", "-c", "npm start & http-server ../dist -p 8080"]
