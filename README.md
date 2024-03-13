@@ -18,6 +18,7 @@ npm run dev
 cd backend
 npm install
 npx prisma generate
+npx prisma migrate deploy
 npm run build
 npm start
 ```

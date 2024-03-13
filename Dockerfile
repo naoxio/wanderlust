@@ -1,5 +1,5 @@
 # Stage 1: Build frontend
-FROM node:18 AS frontend
+FROM node:21 AS frontend
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
@@ -7,14 +7,14 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Build backend
-FROM node:18 AS backend
+FROM node:21 AS backend
 WORKDIR /app/backend
 COPY backend/package*.json ./
 RUN npm ci
 COPY backend ./
-RUN npm run build
 RUN npx prisma generate
 RUN npx prisma migrate deploy
+RUN npm run build
 
 # Stage 3: Final image with Nginx
 FROM nginx:stable-alpine
