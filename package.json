@@ -21,6 +21,7 @@
     "react-globe.gl": "^2.27.2",
     "react-redux": "^9.1.0",
     "react-simple-maps": "^3.0.0",
+    "react-social-login-buttons": "^4.1.0",
     "redux": "^5.0.1"
   },
   "devDependencies": {

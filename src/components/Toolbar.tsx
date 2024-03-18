@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar as MuiToolbar, Typography, IconButton } from '@mui/material';
+import { AppBar, Toolbar as MuiToolbar, Typography, IconButton, Box } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SettingsModal from './SettingsModal';
+import { TelegramLoginButton } from "react-social-login-buttons";
 
 interface ToolbarProps {
   selectedRegion: string;
@@ -27,6 +28,9 @@ const Toolbar: React.FC<ToolbarProps> = ({ selectedRegion, setSelectedRegion, vi
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Wanderlust
         </Typography>
+        <Box>
+          <TelegramLoginButton onClick={() => alert("not yet implemented")} />
+        </Box>
         <IconButton color="inherit" onClick={handleOpenSettings}>
           <SettingsIcon />
         </IconButton>
