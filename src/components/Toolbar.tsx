@@ -1,5 +1,7 @@
-import React from 'react';
-import { AppBar, Toolbar as MuiToolbar, Typography, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import React, { useState } from 'react';
+import { AppBar, Toolbar as MuiToolbar, Typography, IconButton } from '@mui/material';
+import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsModal from './SettingsModal';
 
 interface ToolbarProps {
   selectedRegion: string;
@@ -9,32 +11,33 @@ interface ToolbarProps {
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({ selectedRegion, setSelectedRegion, view, setView }) => {
+  const [openSettings, setOpenSettings] = useState(false);
+
+  const handleOpenSettings = () => {
+    setOpenSettings(true);
+  };
+
+  const handleCloseSettings = () => {
+    setOpenSettings(false);
+  };
+
   return (
     <AppBar position="fixed">
       <MuiToolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Wanderlust
         </Typography>
-        <ToggleButtonGroup
-          value={selectedRegion}
-          exclusive
-          onChange={(_, region) => setSelectedRegion(region)}
-        >
-          <ToggleButton value="World">World</ToggleButton>
-          <ToggleButton value="Africa">Africa</ToggleButton>
-          <ToggleButton value="Antarctica">Antarctica</ToggleButton>
-          <ToggleButton value="Asia">Asia</ToggleButton>
-          <ToggleButton value="Europe">Europe</ToggleButton>
-          <ToggleButton value="Americas">Americas</ToggleButton>
-          <ToggleButton value="Oceania">Oceania</ToggleButton>
-        </ToggleButtonGroup>
-        <span>&nbsp;&nbsp;</span>
-        <ToggleButton
-          value={view}
-          onClick={() => setView(view === '2D' ? '3D' : '2D')}
-        >
-          Switch to {view === '2D' ? '3D' : '2D'}
-        </ToggleButton>
+        <IconButton color="inherit" onClick={handleOpenSettings}>
+          <SettingsIcon />
+        </IconButton>
+        <SettingsModal
+          open={openSettings}
+          onClose={handleCloseSettings}
+          selectedRegion={selectedRegion}
+          setSelectedRegion={setSelectedRegion}
+          view={view}
+          setView={setView}
+        />
       </MuiToolbar>
     </AppBar>
   );
