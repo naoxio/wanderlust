@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, Box, Typography, Select, MenuItem, ToggleButtonGroup, ToggleButton } from '@mui/material';
+import { Modal, Box, Typography, Select, MenuItem, ToggleButtonGroup, ToggleButton, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface SettingsModalProps {
   open: boolean;
@@ -30,10 +31,16 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, selectedRe
           width: 300,
         }}
       >
-        <Typography variant="h6" id="settings-modal" sx={{ mb: 2 }}>
-          Settings
-        </Typography>
-        <Box sx={{ mb: 2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography variant="h6" id="settings-modal">
+            Settings
+          </Typography>
+          <IconButton onClick={onClose} size="small">
+            <CloseIcon />
+          </IconButton>
+        </Box>
+    
+        <Box sx={{ mb: 2, mt: 2 }}>
           <Typography variant="body1" sx={{ mb: 1 }}>Select Visible Region:</Typography>
           <Select
             value={selectedRegion}
