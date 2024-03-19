@@ -1,14 +1,17 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
+import fs from 'fs';
+import path from 'path';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 const fastify = Fastify({ logger: true });
 
 fastify.register(cors, {
-  origin: 'https://wanderlust.naox.io',
+  origin: 'https://traveltint.me',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 });
+
 
 fastify.get('/country-statuses', async () => {
   const countryStatuses = await prisma.countryStatus.findMany();
@@ -27,7 +30,7 @@ fastify.post<{ Body: { iso_a2: string; status: string } }>('/country-status', as
 
 const start = async () => {
   try {
-    await fastify.listen(3000);
+    await fastify.listen({ port: 3001 });
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);

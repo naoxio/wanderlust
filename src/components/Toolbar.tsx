@@ -26,7 +26,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ selectedRegion, setSelectedRegion, vi
     <AppBar position="fixed">
       <MuiToolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Wanderlust
+          Traveltint
         </Typography>
         <Box>
           <TelegramLoginButton onClick={() => alert("not yet implemented")} />

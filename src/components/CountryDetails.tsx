@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography, Radio, RadioGroup, FormControlLabel } from '@mui/material';
 import { CountryData } from '@interfaces/index';
 import { RootState } from '@store/index';
 import { fetchCountryStatuses, updateCountryStatus } from '@store/countryStatusSlice';
 import { getIsoA2 } from '@utils/mapUtils';
 import { useAppDispatch, useAppSelector } from '../hooks';
-
+import axios from 'axios';
 
 interface CountryDetailsProps {
   country: CountryData;
@@ -15,9 +15,28 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({ country }) => {
   const dispatch = useAppDispatch()
   const countryStatus = useAppSelector((state: RootState) => state.countryStatus);
   const isoA2 = getIsoA2(country);
+  const [flagUrl, setFlagUrl] = useState<string>('');
+
+  const preloadSVGFiles = async () => {
+    try {
+      const response = await axios.get('/api/flags');
+      const svgFiles = response.data;
+      console.log(response.data)
+      svgFiles.forEach((file: string) => {
+        const image = new Image();
+        image.src = `/flags/${file}`;
+        if (file === `${isoA2.toLowerCase()}.svg`) {
+          setFlagUrl(image.src);
+        }
+      });
+    } catch (error) {
+      console.error('Error preloading SVG files:', error);
+    }
+  };
 
   useEffect(() => {
     dispatch(fetchCountryStatuses());
+    preloadSVGFiles();
   }, [dispatch]);
 
 
@@ -42,14 +61,17 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({ country }) => {
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-        <Box
-          component="img"
-          src={`/flags/${isoA2.toLowerCase()}.svg`}
-          alt={`${country.properties.admin} Flag`}
-          sx={{ width: 24, height: 24, mr: 1 }}
-        />
+        {flagUrl && (
+          <Box
+            component="img"
+            src={flagUrl}
+            alt={`${country.properties.admin} Flag`}
+            sx={{ width: 24, height: 24, mr: 1 }}
+          />
+        )}
         <Typography variant="h6">{country.properties.admin}</Typography>
       </Box>
+
       <RadioGroup
         row
         value={ countryStatus.find((cs) => cs.iso_a2 === isoA2)?.status || ''}
