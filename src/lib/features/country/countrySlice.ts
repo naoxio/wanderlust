@@ -3,6 +3,7 @@ import { createAppSlice } from "@/lib/createAppSlice";
 import type { AppThunk } from "@/lib/store";
 import { CountryStatus } from "@/interfaces";
 import { fetchCountryStatuses, updateCountryStatus } from "./countryAPI";
+import { PayloadAction } from "@reduxjs/toolkit";
 
 interface CountrySliceState {
   countryStatuses: CountryStatus[];
@@ -18,7 +19,7 @@ export const countrySlice = createAppSlice({
   name: "country",
   initialState,
   reducers: (create) => ({
-    setCountryStatuses: create.reducer((state, action) => {
+    setCountryStatuses: create.reducer((state, action: PayloadAction<CountryStatus[]>) => {
       state.countryStatuses = action.payload;
     }),
   }),
