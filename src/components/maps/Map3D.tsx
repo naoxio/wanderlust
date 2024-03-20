@@ -1,10 +1,14 @@
+'use client';
+
 import React from 'react';
 import { MeshPhongMaterial, Color } from 'three';
-import Globe, { GlobeMethods } from 'react-globe.gl';
-import { CountryData } from '@interfaces/index';
-import nightSkyImage from '@assets/night-sky.png';
-import { getCountryColor, getFilteredCountries, getIsoA2 } from '@utils/mapUtils';
-import { GLOBE_COLOR, POLYGON_SIDE_COLOR } from '@utils/colors';
+import dynamic from 'next/dynamic';
+import { GlobeMethods } from 'react-globe.gl';
+
+import { CountryData } from '@/interfaces/index';
+import { getCountryColor, getFilteredCountries, getIsoA2 } from '@/utils/mapUtils';
+import { GLOBE_COLOR, POLYGON_SIDE_COLOR } from '@/utils/colors';
+const Globe = dynamic(() => import('react-globe.gl'), { ssr: false });
 
 interface Map3DProps {
   countries: CountryData[];
@@ -27,7 +31,6 @@ const Map3D: React.FC<Map3DProps> = ({
   return (
     <Globe
       globeMaterial={new MeshPhongMaterial({ color: new Color(GLOBE_COLOR) })}
-      backgroundImageUrl={nightSkyImage}
       lineHoverPrecision={0}
       polygonsData={filteredCountries}
       polygonAltitude={0.06}

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { AppBar, Toolbar as MuiToolbar, Typography, IconButton, Box } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';

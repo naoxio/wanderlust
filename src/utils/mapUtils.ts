@@ -1,6 +1,6 @@
 // utils/mapUtils.ts
-import { CountryData } from '@interfaces/index';
-import { saturateColor } from '@utils/colors';
+import { CountryData } from '@/interfaces/index';
+import { saturateColor } from '@/utils/colors';
 import { COUNTRY_VISITED, COUNTRY_LIVED, COUNTRY_WANT, COUNTRY_DEFAULT } from './colors';
 
 export const getCountryColor = (

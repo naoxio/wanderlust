@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Modal, Box, Typography, Select, MenuItem, ToggleButtonGroup, ToggleButton, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';

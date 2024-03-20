@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { get } from '@vercel/edge-config';
-import { CountryStatus } from '@interfaces/index';
+import { kv } from '@vercel/kv';
+import { CountryStatus } from '@/interfaces/index';
 
 const initialState: CountryStatus[] = [];
 
@@ -17,7 +17,7 @@ export const fetchCountryStatuses = createAsyncThunk<CountryStatus[], void, obje
     if (isSignedIn()) {
       // const response = await axios.get<CountryStatus[]>('/api/country-statuses');
       // return response.data;
-      return await get<CountryStatus[]>('countryStatuses');
+      return await kv.get<CountryStatus[]>('countryStatuses');
     } else {
       const localStorageData = localStorage.getItem('countryStatuses');
       if (localStorageData) {

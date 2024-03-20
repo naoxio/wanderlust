@@ -1,3 +1,5 @@
+'use client';
+
 import { createTheme } from '@mui/material';
 
 const darkTheme = createTheme({
