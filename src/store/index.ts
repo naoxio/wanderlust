@@ -1,7 +1,7 @@
 // store.ts
 import { configureStore } from '@reduxjs/toolkit';
-import countryStatusReducer from '@store/countryStatusSlice';
-import selectedRegionReducer from '@store/selectedRegionSlice';
+import countryStatusReducer from '@/store/countryStatusSlice';
+import selectedRegionReducer from '@/store/selectedRegionSlice';
 
 const store = configureStore({
   reducer: {

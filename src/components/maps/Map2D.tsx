@@ -41,12 +41,8 @@ const Map2D: React.FC<Map2DProps> = ({
                   );
                 })
                 .map((geo, index) => {
-                  console.log(geo)
                   const country = geo as unknown as CountryData;
-                  console.log(country)
                   const iso_a2 = getIsoA2(country);
-                  
-                  console.log(iso_a2)
                   return (
                     <Geography
                       key={`${geo.rsmKey}-${index}`}

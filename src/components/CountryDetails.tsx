@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, Radio, RadioGroup, FormControlLabel } from '@mui/material';
 import { CountryData } from '../interfaces/index';
 import { getIsoA2 } from '../utils/mapUtils';
@@ -12,10 +12,39 @@ interface CountryDetailsProps {
 
 const CountryDetails: React.FC<CountryDetailsProps> = ({ country }) => {
   const isoA2 = getIsoA2(country);
+  const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
 
-  const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleStatusChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const status = event.target.value;
-    // Handle status change here
+    const isoA2 = getIsoA2(country);
+  
+    console.log(isoA2)
+    if (isSignedIn) {
+      // Update status in KV if logged in
+      await fetch('/api/update-country-status', {
+        method: 'POST',
+        body: JSON.stringify({ iso_a2: isoA2, status: status }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    } else {
+      // Update status in localStorage if logged out
+      const localStorageData = localStorage.getItem('countryStatuses');
+      let updatedStatuses: { iso_a2: string; status: string }[] = [];
+      if (localStorageData) {
+        updatedStatuses = JSON.parse(localStorageData);
+      }
+      const existingCountryIndex = updatedStatuses.findIndex(
+        (country) => country.iso_a2 === isoA2
+      );
+      if (existingCountryIndex !== -1) {
+        updatedStatuses[existingCountryIndex].status = status;
+      } else {
+        updatedStatuses.push({ iso_a2: isoA2, status: status });
+      }
+      localStorage.setItem('countryStatuses', JSON.stringify(updatedStatuses));
+    }
   };
 
   return (

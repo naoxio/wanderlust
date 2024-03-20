@@ -9,15 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.13",
     "@mui/material": "^5.15.13",
+    "@mui/material-nextjs": "^5.15.11",
+    "@reduxjs/toolkit": "^2.2.1",
     "@vercel/kv": "^1.0.1",
+    "install": "^0.13.0",
     "next": "14.1.4",
     "react": "^18",
     "react-dom": "^18",
     "react-globe.gl": "^2.27.2",
+    "react-redux": "^9.1.0",
     "react-simple-maps": "^3.0.0",
     "react-social-login-buttons": "^4.1.0"
   },

@@ -9,7 +9,7 @@ export const getCountryColor = (
   selectedCountry: CountryData | null
 ) => {
   let color = COUNTRY_DEFAULT;
-  const status = countryStatus.find((cs) => cs.iso_a2 === iso_a2)?.status;
+  const status = Array.isArray(countryStatus) ? countryStatus.find((cs) => cs.iso_a2 === iso_a2)?.status : null;
 
   if (status === 'been') {
     color = COUNTRY_VISITED;

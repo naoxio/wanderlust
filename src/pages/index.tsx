@@ -4,6 +4,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 import { GlobeMethods } from 'react-globe.gl';
 import { CountryData, CountryStatus } from '../interfaces';
+import { useCountryStatus } from '../contexts/CountryStatusContext';
+import { useAppDispatch, useAppSelector } from '../hooks';
 
 import Toolbar from '../components/Toolbar';
 import Map2D from '../components/maps/Map2D';
@@ -17,10 +19,10 @@ const WorldMapPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingProgress] = useState(0);
   const [selectedRegion, setSelectedRegion] = useState<string>('World');
-  const [countryStatus, setCountryStatus] = useState<CountryStatus[]>([]);
+  const { countryStatus } = useCountryStatus();
 
   const globeRef = useRef<GlobeMethods | undefined>(undefined);
-
+ 
   useEffect(() => {
     const fetchCountries = async () => {
       
@@ -34,19 +36,9 @@ const WorldMapPage: React.FC = () => {
         setIsLoading(false);
       }
     };
-
-    const fetchCountryStatus = async () => {
-      try {
-        const response = await fetch('/api/country-statuses');
-        const data = await response.json();
-        setCountryStatus(data);
-      } catch (error) {
-        console.error('Error fetching country statuses:', error);
-      }
-    };
+  
 
     fetchCountries();
-    fetchCountryStatus();
   }, []);
 
   const handleCountryClick = (country: unknown) => {
