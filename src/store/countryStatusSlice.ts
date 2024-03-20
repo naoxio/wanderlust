@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { get } from '@vercel/edge-config';
 import { CountryStatus } from '@interfaces/index';
 
 const initialState: CountryStatus[] = [];
@@ -15,8 +15,9 @@ export const fetchCountryStatuses = createAsyncThunk<CountryStatus[], void, obje
   'countryStatus/fetchCountryStatuses',
   async () => {
     if (isSignedIn()) {
-      const response = await axios.get<CountryStatus[]>('/api/country-statuses');
-      return response.data;
+      // const response = await axios.get<CountryStatus[]>('/api/country-statuses');
+      // return response.data;
+      return await get<CountryStatus[]>('countryStatuses');
     } else {
       const localStorageData = localStorage.getItem('countryStatuses');
       if (localStorageData) {
@@ -31,7 +32,8 @@ export const updateCountryStatus = createAsyncThunk(
   'countryStatus/updateCountryStatus',
   async (countryStatus: CountryStatus) => {
     if (isSignedIn()) {
-      await axios.post('/api/country-status', countryStatus);
+      //await put      // await axios.post('/api/country-status', countryStatus);
+      //('countryStatuses', countryStatus);
       return countryStatus;
     } else {
       const localStorageData = localStorage.getItem('countryStatuses');
