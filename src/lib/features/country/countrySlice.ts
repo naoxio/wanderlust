@@ -19,7 +19,9 @@ export const countrySlice = createAppSlice({
   initialState,
   reducers: (create) => ({
     setCountryStatuses: create.reducer((state, action) => {
+      console.log(state)
       state.countryStatuses = action.payload;
+      
     }),
   }),
   selectors: {

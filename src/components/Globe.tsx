@@ -3,23 +3,24 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 import { GlobeMethods } from 'react-globe.gl';
-import { CountryData, CountryStatus } from '../interfaces';
-import { useCountryStatus } from '../contexts/CountryStatusContext';
-import { useAppDispatch, useAppSelector } from '../hooks';
+import { CountryData, CountryStatus } from '@/interfaces';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { fetchCountryStatusesAsync, selectCountryStatuses } from "@/lib/features/country/countrySlice";
 
 import Toolbar from '../components/Toolbar';
 import Map2D from '../components/maps/Map2D';
 import Map3D from '../components/maps/Map3D';
 import CountryDetails from '../components/CountryDetails';
 
-const WorldMapPage: React.FC = () => {
+const Globe = () => {
+  const dispatch = useAppDispatch();
+  const countryStatuses = useAppSelector(selectCountryStatuses);
   const [countries, setCountries] = useState<CountryData[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<CountryData | null>(null);
   const [view, setView] = useState<'2D' | '3D'>('2D');
   const [isLoading, setIsLoading] = useState(true);
   const [loadingProgress] = useState(0);
   const [selectedRegion, setSelectedRegion] = useState<string>('World');
-  const { countryStatus } = useCountryStatus();
 
   const globeRef = useRef<GlobeMethods | undefined>(undefined);
  
@@ -37,9 +38,10 @@ const WorldMapPage: React.FC = () => {
       }
     };
   
+    dispatch(fetchCountryStatusesAsync());
 
     fetchCountries();
-  }, []);
+  }, [dispatch]);
 
   const handleCountryClick = (country: unknown) => {
     setSelectedCountry(country as CountryData);
@@ -83,7 +85,7 @@ const WorldMapPage: React.FC = () => {
         <Map3D
           countries={countries}
           selectedRegion={selectedRegion}
-          countryStatus={countryStatus}
+          countryStatus={countryStatuses}
           selectedCountry={selectedCountry}
           handleCountryClick={handleCountryClick}
           globeRef={globeRef}
@@ -92,7 +94,7 @@ const WorldMapPage: React.FC = () => {
         <Map2D
           countries={countries}
           selectedRegion={selectedRegion}
-          countryStatus={countryStatus}
+          countryStatus={countryStatuses}
           selectedCountry={selectedCountry}
           handleCountryClick={handleCountryClick}
         />
@@ -101,4 +103,4 @@ const WorldMapPage: React.FC = () => {
   );
 };
 
-export default WorldMapPage;
+export default Globe;
