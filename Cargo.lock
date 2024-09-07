@@ -3851,8 +3851,11 @@ dependencies = [
  "dioxus",
  "dioxus-logger",
  "dioxus-router",
+ "euclid",
+ "futures-util",
  "serde",
  "serde_json",
+ "tokio",
 ]
 
 [[package]]

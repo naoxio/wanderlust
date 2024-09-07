@@ -33,10 +33,6 @@ fn Map() -> Element {
     let countries = use_signal(|| {
         match load_and_parse_geojson() {
             Ok(countries) => {
-                for country in &countries {
-                    info!("Loaded country: {}", country.name);
-                }
-                info!("Total countries loaded: {}", countries.len());
                 countries
             },
             Err(e) => {

@@ -7,32 +7,24 @@ use crate::models::{Country, Geometry};
 use dioxus_logger::tracing::{warn, info};
 
 pub fn load_and_parse_geojson() -> Result<Vec<Country>, Box<dyn std::error::Error>> {
-    info!("Starting to load and parse GeoJSON");
     let geojson = load_geojson()?;
     let countries = parse_geojson(&geojson);
-    info!("Finished parsing GeoJSON. Number of countries: {}", countries.len());
     Ok(countries)
 }
 
 fn load_geojson() -> Result<Value, Box<dyn std::error::Error>> {
-    info!("Attempting to open GeoJSON file");
     let mut file = File::open("assets/countries.geojson")?;
-    info!("File opened successfully");
     
     let mut contents = String::new();
     file.read_to_string(&mut contents)?;
-    info!("File contents read into string");
     
     let geojson: Value = serde_json::from_str(&contents)?;
-    info!("GeoJSON parsed successfully");
     Ok(geojson)
 }
 
 pub fn parse_geojson(geojson: &Value) -> Vec<Country> {
-    info!("Starting to parse GeoJSON");
     let empty_vec = Vec::new();
     let features = geojson["features"].as_array().unwrap_or(&empty_vec);
-    info!("Number of features found: {}", features.len());
 
     features.iter().filter_map(|feature| {
         let properties = match feature["properties"].as_object() {
@@ -61,19 +53,8 @@ pub fn parse_geojson(geojson: &Value) -> Vec<Country> {
         let subregion = properties["subregion"].as_str().map(|s| s.to_string());
         let population = properties["pop_est"].as_i64();
 
-        info!("Processing country with name: {:?}", name);
-        info!("alpha2_code: {:?}", alpha2_code);
-        info!("alpha3_code: {:?}", alpha3_code);
-        info!("numeric_code: {:?}", numeric_code);
-        info!("region: {:?}", region);
-        info!("subregion: {:?}", subregion);
-        info!("population: {:?}", population);
-
-
         if name.is_none() || alpha2_code.is_none() || alpha3_code.is_none() || 
         numeric_code.is_none() || region.is_none() || subregion.is_none() || population.is_none() {
-            warn!("Missing required property for country: {:?}", name);
-            warn!("Properties: {:?}", properties);
             return None;
         }
         let geometry = match geometry["type"].as_str() {
