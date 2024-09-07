@@ -1,3 +1,4 @@
+![promo traveltint](promo_traveltint.png)
 # Traveltint
 
 Traveltint is an interactive world map application built with Dioxus that allows users to visually track their travel experiences and aspirations.
