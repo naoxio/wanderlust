@@ -53,6 +53,8 @@ fn render_country(country: &Country, path_cache: HashMap<String, String>) -> Ele
         }
     }
 }
+
+
 fn coordinates_to_path(coordinates: &[Vec<[f64; 2]>]) -> String {
     coordinates.iter().enumerate().map(|(i, poly)| {
         let mut path = String::new();

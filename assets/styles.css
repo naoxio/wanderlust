@@ -8,9 +8,6 @@
     --accent-1: #00fff5;
     --accent-2: #ff00a0;
     --accent-3: #ffb800;
-    --country-fill: var(--color-secondary);
-    --country-fill-hover: var(--color-primary);
-    --country-fill-selected: var(--accent-1);
 }
 
 body {
@@ -96,22 +93,3 @@ path:hover {
     animation: float 4s ease-in-out infinite;
 }
 
-path {
-    fill: var(--country-fill);
-    stroke: var(--bg-primary);
-    stroke-width: 0.5;
-    transition: fill 0.3s ease;
-}
-
-path:hover {
-    fill: var(--country-fill-hover);
-    cursor: pointer;
-}
-
-path.selected {
-    fill: var(--country-fill-selected);
-}
-
-path.selected:hover {
-    fill: var(--country-fill-selected);
-}
