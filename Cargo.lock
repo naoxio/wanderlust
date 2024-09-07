@@ -3850,6 +3850,9 @@ version = "0.1.0"
 dependencies = [
  "dioxus",
  "dioxus-logger",
+ "dioxus-router",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
