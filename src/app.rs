@@ -59,7 +59,6 @@ fn Map() -> Element {
                     h2 { "{country.name}" }
                     p { "Region: {country.region}" }
                     p { "Subregion: {country.subregion}" }
-                    p { "Population: {country.population}" }
                 })
             }
         }

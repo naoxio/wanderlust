@@ -17,6 +17,7 @@ pub fn render_map(countries: Signal<Vec<Country>>) -> Element {
         }
         cache
     });
+    
 
     rsx! {
         svg {
@@ -29,7 +30,6 @@ pub fn render_map(countries: Signal<Vec<Country>>) -> Element {
         }
     }
 }
-
 fn render_country(country: &Country, path_cache: HashMap<String, String>) -> Element {
     let mut selected_country = use_context::<Signal<SelectedCountry>>();
 
@@ -53,7 +53,6 @@ fn render_country(country: &Country, path_cache: HashMap<String, String>) -> Ele
         }
     }
 }
-
 
 fn coordinates_to_path(coordinates: &[Vec<[f64; 2]>]) -> String {
     coordinates.iter().enumerate().map(|(i, poly)| {
