@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 import { GlobeMethods } from 'react-globe.gl';
-import { CountryData, CountryStatus } from '../interfaces';
+import { CountryData } from '../interfaces';
 import { useAppDispatch, useAppSelector } from '../lib/hooks';
 import { fetchCountryStatusesAsync, selectCountryStatuses } from "../lib/features/country/countrySlice";
 
