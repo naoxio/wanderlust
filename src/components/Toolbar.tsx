@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { AppBar, Toolbar as MuiToolbar, Typography, IconButton, Box } from '@mui/material';
+import { AppBar, Toolbar as MuiToolbar, Typography, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SettingsModal from './SettingsModal';
 
