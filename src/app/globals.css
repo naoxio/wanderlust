@@ -1,32 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --sky-blue: #87CEEB;
+  --ocean-blue: #1E3F66;
+  --sand-color: #F2D0A9;
+  --sunset-orange: #FF7F50;
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 135, 206, 235;
+  --background-end-rgb: 30, 63, 102;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
+  font-family: 'Poppins', sans-serif;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
     to bottom,
-    transparent,
-    rgb(var(--background-end-rgb))
-  )
-  rgb(var(--background-start-rgb));
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+    rgba(var(--background-start-rgb), 1),
+    rgba(var(--background-end-rgb), 1)
+  );
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
+.MuiAppBar-root {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px);
+}
+
+.MuiToolbar-root {
+  justify-content: space-between;
+}
+
+.MuiTypography-root {
+  font-weight: 600;
+}
+
+.MuiIconButton-root {
+  color: #fff !important;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Existing styles */
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -43,12 +75,8 @@ body {
 }
 
 @keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -67,17 +95,13 @@ body {
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--sunset-orange);
   text-decoration: inherit;
+  transition: color 0.3s ease;
 }
 
 a:hover {
-  color: #535bf2;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  color: var(--sand-color);
 }
 
 button {
@@ -87,13 +111,15 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--ocean-blue);
+  color: #fff;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: background-color 0.25s, border-color 0.25s;
 }
 
 button:hover {
-  border-color: #646cff;
+  background-color: var(--sky-blue);
+  border-color: var(--ocean-blue);
 }
 
 button:focus,
@@ -101,15 +127,16 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+
+.content-container {
+  padding-top: 64px; /* This should match the height of your AppBar */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.full-height {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }

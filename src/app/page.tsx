@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
-import Globe from '../components/Globe';
+import GlobeContainer from '../components/GlobeContainer';
 
 export default function IndexPage() {
-  return (
-    <Globe />
-  );
+  return <GlobeContainer />;
 }
 
 export const metadata: Metadata = {
