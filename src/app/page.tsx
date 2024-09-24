@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Globe from '@/components/Globe';
+import Globe from '../components/Globe';
 
 export default function IndexPage() {
   return (

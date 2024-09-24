@@ -3,8 +3,8 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps';
-import { CountryData } from '@/interfaces/index';
-import { getCountryColor, getIsoA2 } from '@/utils/mapUtils';
+import { CountryData } from '../../interfaces/index';
+import { getCountryColor, getIsoA2 } from '../../utils/mapUtils';
 
 interface Map2DProps {
   countries: CountryData[];

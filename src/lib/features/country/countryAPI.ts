@@ -1,5 +1,5 @@
 // /lib/features/country/countryAPI.ts
-import { CountryStatus } from "@/interfaces";
+import { CountryStatus } from "../../../interfaces";
 
 export const fetchCountryStatuses = async (): Promise<{ data: CountryStatus[] }> => {
   const response = await fetch("/api/country-statuses", {

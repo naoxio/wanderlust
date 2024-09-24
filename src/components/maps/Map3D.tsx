@@ -5,9 +5,9 @@ import { MeshPhongMaterial, Color } from 'three';
 import dynamic from 'next/dynamic';
 import { GlobeMethods } from 'react-globe.gl';
 
-import { CountryData } from '@/interfaces/index';
-import { getCountryColor, getFilteredCountries, getIsoA2 } from '@/utils/mapUtils';
-import { GLOBE_COLOR, POLYGON_SIDE_COLOR } from '@/utils/colors';
+import { CountryData } from '../../interfaces/index';
+import { getCountryColor, getFilteredCountries, getIsoA2 } from '../../utils/mapUtils';
+import { GLOBE_COLOR, POLYGON_SIDE_COLOR } from '../../utils/colors';
 const Globe = dynamic(() => import('react-globe.gl'), { ssr: false });
 
 interface Map3DProps {

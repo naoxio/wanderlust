@@ -4,8 +4,8 @@ import { Box, Typography, Radio, RadioGroup, FormControlLabel } from '@mui/mater
 import { CountryData } from '../interfaces/index';
 import { getIsoA2 } from '../utils/mapUtils';
 import Image from 'next/image';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { updateCountryStatusAsync, selectCountryStatuses } from '@/lib/features/country/countrySlice';
+import { useAppDispatch, useAppSelector } from '../lib/hooks';
+import { updateCountryStatusAsync, selectCountryStatuses } from '../lib/features/country/countrySlice';
 
 interface CountryDetailsProps {
   country: CountryData;

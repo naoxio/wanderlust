@@ -3,9 +3,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 import { GlobeMethods } from 'react-globe.gl';
-import { CountryData, CountryStatus } from '@/interfaces';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { fetchCountryStatusesAsync, selectCountryStatuses } from "@/lib/features/country/countrySlice";
+import { CountryData, CountryStatus } from '../interfaces';
+import { useAppDispatch, useAppSelector } from '../lib/hooks';
+import { fetchCountryStatusesAsync, selectCountryStatuses } from "../lib/features/country/countrySlice";
 
 import Toolbar from '../components/Toolbar';
 import Map2D from '../components/maps/Map2D';
