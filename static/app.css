@@ -1,0 +1,32 @@
+/* src/app.css */
+:root {
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
+    --color-primary: #e94560;
+    --color-secondary: #0f3460;
+    --text-primary: #f1f1f1;
+    --text-secondary: #a7a7a7;
+    --accent-1: #00fff5;
+    --accent-2: #ff00a0;
+    --accent-3: #ffb800;
+  }
+  
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  h1 {
+    font-size: 3rem;
+    text-align: center;
+    color: var(--color-primary);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 2rem;
+  }
+  
