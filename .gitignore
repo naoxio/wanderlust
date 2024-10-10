@@ -13,3 +13,5 @@
 
 .devenv
 
+node_modules
+.svelte-kit
