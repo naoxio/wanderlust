@@ -3,7 +3,7 @@
 use serde_json::Value;
 use std::fs::File;
 use std::io::Read;
-use crate::models::{Country, Geometry};
+use crate::models::{Country, Geometry, VisitStatus};
 use dioxus_logger::tracing::{warn, info};
 
 pub fn load_and_parse_geojson() -> Result<Vec<Country>, Box<dyn std::error::Error>> {
@@ -83,6 +83,7 @@ pub fn parse_geojson(geojson: &Value) -> Vec<Country> {
             subregion: subregion.unwrap(),
             population: population.unwrap(),
             geometry,
+            visit_status: VisitStatus::None,
         })
     }).collect()
 }

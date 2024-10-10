@@ -2,6 +2,15 @@
 
 use serde::{Deserialize, Serialize};
 
+
+#[derive(Debug, Copy, Clone, Serialize, Deserialize, PartialEq)]
+pub enum VisitStatus {
+    None,
+    Been,
+    Want,
+    Lived,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct Country {
     pub name: String,
@@ -13,6 +22,7 @@ pub struct Country {
     pub subregion: String,
     pub population: i64,
     pub geometry: Geometry,
+    pub visit_status: VisitStatus,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -24,3 +34,4 @@ pub enum Geometry {
 
 #[derive(Clone, PartialEq)]
 pub struct SelectedCountry(pub Option<Country>);
+

@@ -103,3 +103,21 @@ path.selected {
 path.selected:hover {
     fill: var(--accent-2) !important;  /* Hover color for selected countries */
 }
+
+.visit-status-toggle {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.visit-status-toggle button {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.visit-status-toggle button.active {
+    background-color: #007bff;
+    color: white;
+}
